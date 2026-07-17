@@ -1,0 +1,46 @@
+.hero {
+  margin: auto;
+  max-width: 560px;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  margin: 0 0 18px;
+}
+
+h1 {
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 auto 36px;
+  max-width: 440px;
+}
+
+.cta {
+  display: inline-block;
+  background: var(--tan-accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 13px 28px;
+  border-radius: 999px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.cta:hover {
+  background: var(--tan-accent-dark);
+  transform: translateY(-1px);
+}

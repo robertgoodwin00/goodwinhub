@@ -1,0 +1,124 @@
+<section class="link-list">
+  <div class="link-list-header">
+    <button
+      type="button"
+      class="toggle-btn"
+      [attr.aria-expanded]="open()"
+      aria-label="Toggle links visibility"
+      (click)="toggleOpen()"
+    >{{ open() ? '▾' : '▸' }}</button>
+    <h2>Links <span class="subheading">Business websites, personal projects, blogs, etc</span></h2>
+    @if (open() && !formOpen()) {
+      <button type="button" class="add-btn-inline" (click)="startAdd()">+ Add link</button>
+    }
+  </div>
+
+  @if (open()) {
+
+  @if (formOpen()) {
+    <form class="link-form" (ngSubmit)="saveForm()">
+      <label>
+        Name
+        <input
+          type="text"
+          placeholder="Group links share, e.g. Docs, Tools"
+          [ngModel]="formName()"
+          (ngModelChange)="formName.set($event)"
+          name="name"
+          maxlength="60"
+          required
+        />
+      </label>
+      <label>
+        Title
+        <input
+          type="text"
+          placeholder="What this link is"
+          [ngModel]="formTitle()"
+          (ngModelChange)="formTitle.set($event)"
+          name="title"
+          maxlength="120"
+          required
+        />
+      </label>
+      <label>
+        Link
+        <input
+          type="text"
+          placeholder="https://…"
+          [ngModel]="formUrl()"
+          (ngModelChange)="formUrl.set($event)"
+          name="url"
+          maxlength="2048"
+          required
+        />
+      </label>
+
+      @if (formError()) {
+        <p class="error" role="alert">{{ formError() }}</p>
+      }
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+        <button type="button" class="cancel" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  }
+
+  @if (loading()) {
+    <p class="status">Loading…</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else if (groups().length === 0) {
+    <p class="status">No links yet.</p>
+  } @else {
+    <div class="link-groups">
+      @for (group of groups(); track group.name) {
+        <div class="link-group">
+          <div class="group-header">
+            <h3 class="group-name">{{ group.name }}</h3>
+            @if (isAdmin()) {
+              <button
+                type="button"
+                class="group-delete-btn"
+                [disabled]="clearingGroup() === group.name"
+                (click)="clearGroup(group.name)"
+              >
+                Delete all in "{{ group.name }}"
+              </button>
+            }
+          </div>
+          <ul class="link-items">
+            @for (link of group.links; track link.id) {
+              <li class="link-row">
+                <a class="link-title" [href]="link.url" target="_blank" rel="noopener noreferrer">
+                  {{ link.title }}
+                </a>
+                <div class="link-actions">
+                  <button type="button" (click)="startEdit(link)" aria-label="Edit">✎</button>
+                  <button type="button" (click)="deleteLink(link)" aria-label="Delete">×</button>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    @if (hasMore()) {
+      <button type="button" class="load-more-btn" [disabled]="loadingMore()" (click)="loadMore()">
+        {{ loadingMore() ? 'Loading…' : 'Load more' }}
+      </button>
+    }
+  }
+
+  @if (isAdmin()) {
+    <div class="admin-toolbar">
+      <button type="button" class="danger-btn" [disabled]="clearing()" (click)="clearAll()">
+        Delete all links
+      </button>
+    </div>
+  }
+
+  }
+</section>

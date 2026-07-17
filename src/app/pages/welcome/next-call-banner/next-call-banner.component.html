@@ -1,0 +1,32 @@
+<section class="next-call-banner">
+  @if (!editing()) {
+    <div class="banner-content">
+      <span class="banner-label">Next Family Call:</span>
+      <span class="banner-value">{{ loading() ? 'Loading…' : displayText() }}</span>
+      <button type="button" class="edit-btn" (click)="startEdit()">Edit</button>
+    </div>
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+  } @else {
+    <form class="banner-form" (ngSubmit)="save()">
+      <input
+        type="date"
+        [ngModel]="formDate()"
+        (ngModelChange)="formDate.set($event)"
+        name="date"
+        required
+      />
+      <select [ngModel]="formTime()" (ngModelChange)="formTime.set($event)" name="time" required>
+        @for (opt of timeOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+      <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+      <button type="button" class="cancel" (click)="cancelEdit()">Cancel</button>
+      @if (formError()) {
+        <p class="error" role="alert">{{ formError() }}</p>
+      }
+    </form>
+  }
+</section>

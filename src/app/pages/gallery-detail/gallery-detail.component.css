@@ -1,0 +1,457 @@
+/* Same root cause as the main page originally had: this component's host
+   element is a flex item inside <main> with no explicit width, so it
+   shrinks to content instead of filling the row — leaving .gallery-page's
+   own `margin: 0 auto` centering a box that never had real room to begin
+   with. Forcing the host to stretch (both via explicit width and via
+   flex-grow, belt-and-suspenders) fixes both the width and the centering. */
+:host {
+  display: block;
+  width: 100%;
+  flex: 1 1 auto;
+  align-self: stretch;
+}
+
+.gallery-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+/* This page was still capped at the old mobile-era width while the rest
+   of the site got a lot more room — widen it to match, and give the
+   image grid a bit more breathing room per thumbnail too. */
+@media (min-width: 1200px) {
+  .gallery-page {
+    max-width: 1500px;
+    padding: 48px 40px 72px;
+  }
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--brass-dark);
+}
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.gallery-header h1 {
+  font-size: 32px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  border-color: var(--brass);
+  color: var(--brass-dark);
+}
+
+.icon-btn.danger:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.title-form {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.title-form input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 20px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.title-form button[type='submit'] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.title-form .cancel {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+.description-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.description.placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.description-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.description-form textarea {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.description-form textarea:focus {
+  border-color: var(--brass);
+  background: var(--surface);
+}
+
+.description-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.description-actions button[type='submit'] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.description-actions button[type='submit']:hover:not(:disabled) {
+  background: var(--tan-accent-dark);
+}
+
+.description-actions button[type='submit']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.description-actions .cancel {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.description-actions .cancel:hover {
+  border-color: var(--brass);
+}
+
+.upload-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+
+.file-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  background: var(--surface);
+}
+
+.file-picker input[type='file'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-picker:hover {
+  border-color: var(--brass);
+}
+
+.upload-form input[type='text'] {
+  flex: 1;
+  min-width: 180px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.upload-form button[type='submit'] {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.upload-form button[type='submit']:hover:not(:disabled) {
+  background: var(--tan-accent-dark);
+}
+
+.upload-form button[type='submit']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--danger);
+  margin: 10px 0;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+@media (min-width: 1200px) {
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 18px;
+  }
+}
+
+.thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+  cursor: pointer;
+  padding: 0;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Lightbox */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 18, 22, 0.86);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.lightbox-content {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.lightbox-nav.prev {
+  left: 8px;
+}
+
+.lightbox-nav.next {
+  right: 8px;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 68vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.lightbox-caption-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.lightbox-caption-row input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.lightbox-caption-row button {
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.lightbox-caption-row button:hover:not(.danger):not(:disabled) {
+  border-color: var(--brass);
+  color: var(--brass-dark);
+}
+
+.lightbox-caption-row button.danger:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+@media (min-width: 700px) {
+  .lightbox-nav.prev {
+    left: -56px;
+  }
+
+  .lightbox-nav.next {
+    right: -56px;
+  }
+}

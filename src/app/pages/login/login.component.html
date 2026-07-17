@@ -1,0 +1,35 @@
+<section class="card">
+  <p class="eyebrow">Shared access</p>
+  <h1>Login</h1>
+  <p class="hint">One password, no username — Everyone shares it.</p>
+
+  <div class="tumblers" aria-hidden="true">
+    @for (i of [0, 1, 2, 3, 4, 5, 6, 7]; track i) {
+      <span class="tumbler" [class.filled]="i < dotCount"></span>
+    }
+    @if (overflow) {
+      <span class="overflow">+</span>
+    }
+  </div>
+
+  <form (ngSubmit)="submit()">
+    <label class="field-label" for="password">Password</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      autocomplete="current-password"
+      [(ngModel)]="password"
+      placeholder="••••••••"
+      autofocus
+    />
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <button class="submit" type="submit" [disabled]="!password || submitting()">
+      {{ submitting() ? 'Checking…' : 'Unlock' }}
+    </button>
+  </form>
+</section>

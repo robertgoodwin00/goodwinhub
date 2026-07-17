@@ -1,0 +1,145 @@
+/*
+  Design tokens
+  -------------
+  Subject: an internal CMS opened with one shared key, not personal accounts.
+  The palette and the login signature (tumbler dots) both lean on that idea.
+*/
+:root {
+  --ink: #16202a;
+  --ink-soft: #2b3a48;
+  --bg: #eef2f1;
+  --surface: #ffffff;
+  --border: #dbe2e0;
+  --text-muted: #5b6570;
+  --brass: #b08d57;
+  --brass-dark: #8c6d3f;
+  --special: #6f5aa6;
+  --special-bg: #f6f4fb;
+  --danger: #b3402f;
+
+  /* Goldish-tan card surface — same family as the brass/shout accent —
+     used so each feature section reads as its own panel against --bg. */
+  --tan-bg: #f5ead2;
+  --tan-border: #e5cf9e;
+
+  /* A separate, deeper tan (distinct from --tan-bg/--tan-border above and
+     from --brass) used for the collapse/reveal toggle circles. */
+  --tan-accent: #a97c3f;
+  --tan-accent-dark: #8a632f;
+
+  /* Action colors: link text, the edit (✎) affordance, and the "+ Add"
+     buttons. Edit shares the green family with "+ Add" (both positive/
+     constructive actions); link and danger stay visually distinct. */
+  --link: #2f5fd6;
+  --link-dark: #23479f;
+  --add-green: #2f9e44;
+  --add-green-dark: #26843a;
+  --edit: var(--add-green);
+  --edit-dark: var(--add-green-dark);
+
+  /* Fraunces (the old display serif) is gone — its swashy lowercase f/j
+     was the "funny-looking" letterform showing up in headings everywhere.
+     Headings now share the same clean sans-serif as body text. */
+  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+
+  --radius: 10px;
+  --shadow-card: 0 20px 40px -24px rgba(22, 32, 42, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Shared admin-only "danger zone" controls — used by the shoutbox,
+   calendar, and gallery list wherever a bulk-delete action is admin-gated.
+   Lives at the bottom of each section, set off with a divider so it reads
+   as a separate "danger zone" rather than a primary action. */
+.admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding-top: 16px;
+  border-top: 1px dashed var(--tan-border);
+}
+
+.danger-btn {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  padding: 6px 13px;
+  border: 1px solid var(--danger);
+  border-radius: 999px;
+  background: none;
+  color: var(--danger);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.danger-btn:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;
+}
+
+.danger-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Placeholder subheading — same text as the heading, smaller and muted,
+   sitting inline with it. Stand-in until real subheading copy exists. */
+.subheading {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+

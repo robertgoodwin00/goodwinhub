@@ -1,0 +1,18 @@
+<header class="topbar">
+  <a class="brand" routerLink="/" aria-label="Home"></a>
+  @if (isAuthenticated()) {
+    <div class="topbar-right">
+      @if (isAdmin()) {
+        <span class="admin-badge">Admin</span>
+      }
+      <button class="logout" type="button" (click)="logout()">Log out</button>
+    </div>
+  }
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<app-toast />
+<app-confirm-dialog />

@@ -1,0 +1,122 @@
+.card {
+  margin: auto;
+  width: 100%;
+  max-width: 380px;
+  padding: 40px 36px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  margin: 0 0 10px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+/* Signature element: tumblers that light up brass as the key is typed,
+   echoing a physical lock aligning its pins. */
+.tumblers {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.tumbler {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.tumbler.filled {
+  background: var(--brass);
+  border-color: var(--brass);
+  transform: scale(1.15);
+}
+
+.overflow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brass-dark);
+  align-self: center;
+  margin-left: 2px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+input {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  text-align: center;
+}
+
+input:focus {
+  border-color: var(--brass);
+  background: var(--surface);
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.submit {
+  margin-top: 6px;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--tan-accent-dark);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

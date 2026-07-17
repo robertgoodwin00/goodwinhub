@@ -1,0 +1,191 @@
+<section class="contact-list">
+  <div class="contact-list-header">
+    <button
+      type="button"
+      class="toggle-btn"
+      [attr.aria-expanded]="open()"
+      aria-label="Toggle contacts visibility"
+      (click)="toggleOpen()"
+    >{{ open() ? '▾' : '▸' }}</button>
+    <h2>Contact Info <span class="subheading">Let's get everyone on here!</span></h2>
+    @if (open() && !formOpen()) {
+      <button type="button" class="add-btn-inline" (click)="startAdd()">+ Add contact</button>
+    }
+  </div>
+
+  @if (open()) {
+
+  @if (formOpen()) {
+    <form class="contact-form" (ngSubmit)="saveForm()">
+      <label>
+        Name
+        <input
+          type="text"
+          [ngModel]="formName()"
+          (ngModelChange)="formName.set($event)"
+          name="name"
+          maxlength="120"
+          required
+        />
+      </label>
+      <label>
+        Email
+        <input
+          type="text"
+          [ngModel]="formEmail()"
+          (ngModelChange)="formEmail.set($event)"
+          name="email"
+          maxlength="190"
+        />
+      </label>
+      <label>
+        Phone
+        <input
+          type="text"
+          [ngModel]="formPhone()"
+          (ngModelChange)="formPhone.set($event)"
+          name="phone"
+          maxlength="30"
+        />
+      </label>
+      <label>
+        Alt phone
+        <input
+          type="text"
+          [ngModel]="formPhoneAlt()"
+          (ngModelChange)="formPhoneAlt.set($event)"
+          name="phoneAlt"
+          maxlength="30"
+        />
+      </label>
+      <label>
+        Address
+        <input
+          type="text"
+          [ngModel]="formAddress()"
+          (ngModelChange)="formAddress.set($event)"
+          name="address"
+          maxlength="255"
+        />
+      </label>
+
+      @if (formError()) {
+        <p class="error" role="alert">{{ formError() }}</p>
+      }
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+        <button type="button" class="cancel" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  }
+
+  @if (loading()) {
+    <p class="status">Loading…</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else if (contacts().length === 0) {
+    <p class="status">No contacts yet.</p>
+  } @else {
+    <div class="contact-cards">
+      @for (contact of contacts(); track contact.id) {
+        <div class="contact-card">
+          <div class="card-header">
+            <h3>{{ contact.name }}</h3>
+            <div class="card-actions">
+              <button type="button" (click)="startEdit(contact)" aria-label="Edit">✎</button>
+              <button type="button" (click)="deleteContact(contact)" aria-label="Delete">×</button>
+            </div>
+          </div>
+
+          <dl class="card-fields">
+            @if (contact.email) {
+              <div class="field">
+                <dt>Email</dt>
+                <dd><a [href]="'mailto:' + contact.email">{{ contact.email }}</a></dd>
+              </div>
+            }
+            @if (contact.phone) {
+              <div class="field">
+                <dt>Phone</dt>
+                <dd>{{ contact.phone }}</dd>
+              </div>
+            }
+            @if (contact.phoneAlt) {
+              <div class="field">
+                <dt>Alt phone</dt>
+                <dd>{{ contact.phoneAlt }}</dd>
+              </div>
+            }
+            @if (contact.address) {
+              <div class="field">
+                <dt>Address</dt>
+                <dd>{{ contact.address }}</dd>
+              </div>
+            }
+          </dl>
+
+          @if (contact.socials.length > 0) {
+            <ul class="social-list">
+              @for (social of contact.socials; track social.id) {
+                <li class="social-row">
+                  <a class="social-link" [href]="social.url" target="_blank" rel="noopener noreferrer">
+                    <span class="social-platform">{{ social.platform }}</span>
+                  </a>
+                  <div class="social-actions">
+                    <button type="button" (click)="startEditSocial(contact.id, social)" aria-label="Edit">✎</button>
+                    <button type="button" (click)="deleteSocial(contact.id, social)" aria-label="Delete">×</button>
+                  </div>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (socialFormFor() === contact.id) {
+            <form class="social-form" (ngSubmit)="saveSocialForm(contact.id)">
+              <input
+                type="text"
+                placeholder="Platform, e.g. Instagram"
+                [ngModel]="socialPlatform()"
+                (ngModelChange)="socialPlatform.set($event)"
+                name="platform"
+                maxlength="40"
+                required
+              />
+              <input
+                type="text"
+                placeholder="URL or ID or username"
+                [ngModel]="socialUrl()"
+                (ngModelChange)="socialUrl.set($event)"
+                name="url"
+                maxlength="2048"
+                required
+              />
+              <button type="submit" [disabled]="socialSaving()">
+                {{ socialSaving() ? 'Saving…' : 'Save' }}
+              </button>
+              <button type="button" class="cancel" (click)="cancelSocialForm()">Cancel</button>
+              @if (socialError()) {
+                <p class="error" role="alert">{{ socialError() }}</p>
+              }
+            </form>
+          } @else {
+            <button type="button" class="add-social-btn" (click)="startAddSocial(contact.id)">
+              + Add social link
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (isAdmin()) {
+    <div class="admin-toolbar">
+      <button type="button" class="danger-btn" [disabled]="clearing()" (click)="clearAll()">
+        Delete all contacts
+      </button>
+    </div>
+  }
+
+  }
+</section>

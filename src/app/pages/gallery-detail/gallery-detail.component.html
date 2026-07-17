@@ -1,0 +1,126 @@
+<div class="gallery-page">
+  <a routerLink="/welcome" class="back-link">‹ Back to Main</a>
+
+  @if (gallery(); as g) {
+    <header class="gallery-header">
+      @if (!editingTitle()) {
+        <h1>{{ g.title }}</h1>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" (click)="startEditTitle()">Rename</button>
+          <button type="button" class="icon-btn danger" (click)="deleteGallery()">Delete gallery</button>
+        </div>
+      } @else {
+        <form class="title-form" (ngSubmit)="saveTitle()">
+          <input
+            type="text"
+            [ngModel]="titleDraft()"
+            (ngModelChange)="titleDraft.set($event)"
+            name="title"
+            maxlength="120"
+            required
+          />
+          <button type="submit" [disabled]="savingTitle()">Save</button>
+          <button type="button" class="cancel" (click)="cancelEditTitle()">Cancel</button>
+        </form>
+      }
+    </header>
+
+    @if (!editingDescription()) {
+      <div class="description-row">
+        @if (g.description) {
+          <p class="description">{{ g.description }}</p>
+        } @else {
+          <p class="description placeholder">No description yet.</p>
+        }
+        <button type="button" class="icon-btn" (click)="startEditDescription()">Edit description</button>
+      </div>
+    } @else {
+      <form class="description-form" (ngSubmit)="saveDescription()">
+        <textarea
+          [ngModel]="descriptionDraft()"
+          (ngModelChange)="descriptionDraft.set($event)"
+          name="description"
+          maxlength="500"
+          rows="3"
+          placeholder="What's this gallery about?"
+        ></textarea>
+        <div class="description-actions">
+          <button type="submit" [disabled]="savingDescription()">
+            {{ savingDescription() ? 'Saving…' : 'Save' }}
+          </button>
+          <button type="button" class="cancel" (click)="cancelEditDescription()">Cancel</button>
+        </div>
+      </form>
+    }
+
+    <p class="meta">{{ g.images.length }} photo{{ g.images.length === 1 ? '' : 's' }}</p>
+
+    <form class="upload-form" (ngSubmit)="submitUpload()">
+      <label class="file-picker">
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          (change)="onFileSelected($event)"
+        />
+        <span>{{ selectedFileName || 'Choose a photo…' }}</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Caption (optional)"
+        [ngModel]="uploadCaption()"
+        (ngModelChange)="uploadCaption.set($event)"
+        name="caption"
+        maxlength="200"
+      />
+      <button type="submit" [disabled]="!selectedFile || uploading()">
+        {{ uploading() ? 'Uploading…' : 'Upload photo' }}
+      </button>
+    </form>
+    @if (uploadError()) {
+      <p class="error" role="alert">{{ uploadError() }}</p>
+    }
+
+    @if (g.images.length === 0) {
+      <p class="status">No photos yet — upload the first one.</p>
+    } @else {
+      <div class="image-grid">
+        @for (image of g.images; track image.id; let i = $index) {
+          <button type="button" class="thumb" (click)="openLightbox(i)">
+            <img [src]="image.thumbUrl" [alt]="image.caption || g.title" loading="lazy" />
+            @if (image.caption) {
+              <span class="thumb-caption">{{ image.caption }}</span>
+            }
+          </button>
+        }
+      </div>
+    }
+  } @else if (loading()) {
+    <p class="status">Loading…</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (lightboxImage(); as image) {
+    <div class="lightbox" (click)="closeLightbox()">
+      <div class="lightbox-content" (click)="$event.stopPropagation()">
+        <button type="button" class="lightbox-close" (click)="closeLightbox()" aria-label="Close">×</button>
+        <button type="button" class="lightbox-nav prev" (click)="prevImage()" aria-label="Previous photo">‹</button>
+        <img class="lightbox-img" [src]="image.fullUrl" [alt]="image.caption" />
+        <button type="button" class="lightbox-nav next" (click)="nextImage()" aria-label="Next photo">›</button>
+
+        <div class="lightbox-caption-row">
+          <input
+            type="text"
+            [ngModel]="captionDraft()"
+            (ngModelChange)="captionDraft.set($event)"
+            name="lightboxCaption"
+            maxlength="200"
+            placeholder="Add a caption…"
+          />
+          <button type="button" (click)="saveCaption()" [disabled]="savingCaption()">Save</button>
+          <button type="button" class="danger" (click)="deleteImage()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

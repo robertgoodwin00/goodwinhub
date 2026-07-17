@@ -1,0 +1,398 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.contact-list {
+  width: 100%;
+  max-width: 900px;
+  margin: 48px auto 0;
+  text-align: left;
+  background: var(--tan-bg);
+  border: 1px solid var(--tan-border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+}
+
+.contact-list-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.toggle-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--tan-accent);
+  border: 1.5px solid var(--tan-accent);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  background: var(--tan-accent-dark);
+  border-color: var(--tan-accent-dark);
+}
+
+.contact-list-header h2 {
+  font-size: 22px;
+  text-align: center;
+}
+
+.add-btn-inline {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--add-green);
+  border: 1.5px solid #000;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.add-btn-inline:hover {
+  background: var(--add-green-dark);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.contact-form input {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.contact-form input:focus {
+  border-color: var(--brass);
+  background: var(--surface);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.form-actions button[type='submit'] {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.form-actions button[type='submit']:hover:not(:disabled) {
+  background: var(--tan-accent-dark);
+}
+
+.form-actions button[type='submit']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-actions .cancel {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.form-actions .cancel:hover {
+  border-color: var(--brass);
+}
+
+.status {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.error {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+/* Explicit 3-across at desktop widths instead of leaving it to auto-fill —
+   predictable regardless of how wide .contact-list itself gets. */
+@media (min-width: 900px) {
+  .contact-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.contact-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 14px 16px;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.card-actions button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.card-actions button[aria-label='Edit'] {
+  border-color: var(--edit);
+  color: var(--edit);
+}
+
+.card-actions button[aria-label='Edit']:hover {
+  background: var(--edit);
+  color: #fff;
+}
+
+.card-actions button[aria-label='Delete'] {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.card-actions button[aria-label='Delete']:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.card-fields {
+  margin: 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.field dt {
+  color: var(--text-muted);
+  min-width: 68px;
+  flex-shrink: 0;
+}
+
+.field dd {
+  margin: 0;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.field a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.field a:hover {
+  color: var(--brass-dark);
+  text-decoration: underline;
+}
+
+.social-list {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.social-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.social-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.social-link:hover {
+  color: var(--brass-dark);
+  text-decoration: underline;
+}
+
+.social-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.social-actions button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.social-actions button[aria-label='Edit'] {
+  border-color: var(--edit);
+  color: var(--edit);
+}
+
+.social-actions button[aria-label='Edit']:hover {
+  background: var(--edit);
+  color: #fff;
+}
+
+.social-actions button[aria-label='Delete'] {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.social-actions button[aria-label='Delete']:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.add-social-btn {
+  background: var(--add-green);
+  border: 1.5px solid #000;
+  border-radius: 8px;
+  padding: 7px;
+  width: 100%;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.add-social-btn:hover {
+  background: var(--add-green-dark);
+}
+
+.social-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.social-form input {
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 7px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.social-form input:focus {
+  border-color: var(--brass);
+  background: var(--surface);
+}
+
+.social-form button[type='submit'] {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--tan-accent);
+  color: #fff;
+  font-weight: 500;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.social-form button[type='submit']:hover:not(:disabled) {
+  background: var(--tan-accent-dark);
+}
+
+.social-form button[type='submit']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.social-form .cancel {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.social-form .cancel:hover {
+  border-color: var(--brass);
+}
+
+@media (min-width: 1200px) {
+  .contact-list {
+    max-width: 1320px;
+    padding: 28px 26px;
+  }
+}

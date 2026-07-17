@@ -1,0 +1,11 @@
+<div class="toast-stack" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div
+      class="toast"
+      [class.warning]="toast.type === 'warning'"
+      (click)="toastService.dismiss(toast.id)"
+    >
+      {{ toast.message }}
+    </div>
+  }
+</div>

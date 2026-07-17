@@ -1,0 +1,58 @@
+<section class="shoutbox">
+  <h2>Shoutbox <span class="subheading">More relaxing than shouting at your kids</span></h2>
+  <p class="limit-note">Only the most recent 200 shouts are kept — older ones drop off automatically.</p>
+
+  <div class="feed" #scrollContainer>
+    @if (loading()) {
+      <p class="status">Loading…</p>
+    } @else if (shouts().length === 0) {
+      <p class="status">No shouts yet — be the first.</p>
+    } @else {
+      @for (shout of shouts(); track shout.id) {
+        <article class="shout">
+          <header>
+            <span class="name">{{ shout.name }}</span>
+            <span class="time">{{ formatTime(shout.createdAt) }}</span>
+          </header>
+          <p class="message">{{ shout.message }}</p>
+        </article>
+      }
+    }
+  </div>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  <form class="composer" (ngSubmit)="submit()">
+    <input
+      name="name"
+      type="text"
+      placeholder="Your name"
+      [(ngModel)]="name"
+      maxlength="60"
+      required
+    />
+    <div class="message-row">
+      <input
+        name="message"
+        type="text"
+        placeholder="Say something…"
+        [(ngModel)]="message"
+        maxlength="500"
+        required
+      />
+      <button type="submit" [disabled]="!name.trim() || !message.trim() || submitting()">
+        {{ submitting() ? '…' : 'Shout' }}
+      </button>
+    </div>
+  </form>
+
+  @if (isAdmin()) {
+    <div class="admin-toolbar">
+      <button type="button" class="danger-btn" [disabled]="clearing()" (click)="clearAll()">
+        Delete all shouts
+      </button>
+    </div>
+  }
+</section>

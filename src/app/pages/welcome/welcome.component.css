@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.panel {
+  margin: auto;
+  max-width: 560px;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+@media (min-width: 760px) {
+  .panel {
+    max-width: 1100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .panel {
+    max-width: 1400px;
+    padding: 56px 40px;
+  }
+}
+
+.hero-mark {
+  display: inline-block;
+  width: 34px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--brass);
+  margin-bottom: 22px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 14px;
+}
+
+/* Top banner — dark, full-bleed, deliberately loud: this is the one place
+   on the page meant to grab the eye before anything else. */
+.hero-banner {
+  width: 100%;
+  background: var(--ink);
+  color: #fff;
+  text-align: center;
+  padding: 64px 24px 56px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 56px;
+  letter-spacing: 0.01em;
+  margin: 0 0 16px;
+}
+
+.hero-lede {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+@media (min-width: 760px) {
+  .hero-title {
+    font-size: 76px;
+  }
+}
+
+/* Bottom banner — same dark treatment, quieter content, so the page ends
+   on the same note it opened on. */
+.foot-banner {
+  width: 100%;
+  background: var(--ink);
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  padding: 40px 24px;
+  margin-top: 56px;
+}
+
+.foot-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  margin: 0;
+}

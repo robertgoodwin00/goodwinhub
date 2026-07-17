@@ -1,0 +1,156 @@
+<section class="calendar">
+  <h2 class="section-title">Calendar <span class="subheading">Faster than going through the calendar at FHE</span></h2>
+
+  <header class="cal-header">
+    <button type="button" class="nav" (click)="prevMonth()" aria-label="Previous month">‹</button>
+    <h2>{{ monthLabel() }}</h2>
+    <button type="button" class="nav" (click)="nextMonth()" aria-label="Next month">›</button>
+    <button type="button" class="today-btn" (click)="goToToday()">Today</button>
+  </header>
+
+  <div class="weekdays">
+    @for (label of weekdayLabels; track label) {
+      <span>{{ label }}</span>
+    }
+  </div>
+
+  @if (loading()) {
+    <p class="status">Loading…</p>
+  } @else {
+    <div class="grid">
+      @for (day of days(); track day.iso) {
+        <button
+          type="button"
+          class="day"
+          [class.faded]="!day.isCurrentMonth"
+          [class.today]="day.isToday"
+          [class.selected]="day.iso === selectedDate()"
+          (click)="selectDay(day)"
+        >
+          <span class="day-number">{{ day.dayNumber }}</span>
+          @if (day.events.length > 0) {
+            <span class="chips">
+              @for (event of day.events.slice(0, 4); track event.id) {
+                <span class="chip" [class.special]="event.type === 'special'" [title]="event.title">
+                  {{ event.title }}
+                </span>
+              }
+              @if (day.events.length > 4) {
+                <span class="chip more">+{{ day.events.length - 4 }} more</span>
+              }
+            </span>
+          }
+        </button>
+      }
+    </div>
+  }
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (selectedDate()) {
+    <div class="day-panel">
+      <h3>{{ formatSelectedDate() }}</h3>
+
+      @if (selectedDayEvents().length === 0) {
+        <p class="status">Nothing on the calendar yet.</p>
+      } @else {
+        <ul class="event-list">
+          @for (event of selectedDayEvents(); track event.id) {
+            <li class="event-row" [class.special]="event.type === 'special'">
+              <div class="event-info">
+                <span class="event-time">{{ formatEventTime(event) }}</span>
+                <span class="event-title">{{ event.title }}</span>
+                <span class="event-details">{{ event.details }}</span>
+                @if (event.type === 'special') {
+                  <span class="badge">Holiday / Birthday · repeats yearly</span>
+                }
+              </div>
+              @if (canEdit(event)) {
+                <div class="event-actions">
+                  <button type="button" (click)="startEdit(event)" aria-label="Edit">✎</button>
+                  <button type="button" (click)="deleteEvent(event)" aria-label="Delete">×</button>
+                </div>
+              }
+            </li>
+          }
+        </ul>
+      }
+
+      @if (!formOpen()) {
+        <button type="button" class="add-btn" (click)="startAdd()">+ Add event</button>
+      } @else {
+        <form class="event-form" (ngSubmit)="saveForm()">
+          <label>
+            Title
+            <input
+              type="text"
+              [ngModel]="formTitle()"
+              (ngModelChange)="formTitle.set($event)"
+              name="title"
+              maxlength="120"
+              required
+            />
+          </label>
+          <label>
+            Time
+            <select
+              [ngModel]="formTime()"
+              (ngModelChange)="formTime.set($event)"
+              name="time"
+              required
+            >
+              @for (opt of timeOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            Details
+            <input
+              type="text"
+              [ngModel]="formDetails()"
+              (ngModelChange)="formDetails.set($event)"
+              name="details"
+              maxlength="500"
+              required
+            />
+          </label>
+
+          @if (isAdmin()) {
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                [ngModel]="formIsSpecial()"
+                (ngModelChange)="formIsSpecial.set($event)"
+                name="isSpecial"
+              />
+              Birthday / holiday — repeats every year on this month, day &amp; time
+            </label>
+          }
+
+          @if (formError()) {
+            <p class="error" role="alert">{{ formError() }}</p>
+          }
+
+          <div class="form-actions">
+            <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save' }}</button>
+            <button type="button" class="cancel" (click)="cancelForm()">Cancel</button>
+          </div>
+        </form>
+      }
+    </div>
+  }
+
+  @if (isAdmin()) {
+    <div class="admin-toolbar">
+      <button type="button" class="danger-btn" [disabled]="clearing()" (click)="clearRegularEvents()">
+        Delete all regular events
+      </button>
+      <button type="button" class="danger-btn" [disabled]="clearing()" (click)="clearSpecialEvents()">
+        Delete all birthdays/holidays
+      </button>
+    </div>
+  }
+</section>
